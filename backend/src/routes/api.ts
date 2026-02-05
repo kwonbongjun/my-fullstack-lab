@@ -40,6 +40,32 @@ router.post('/users', async (req: Request, res: Response) => {
   }
 });
 
+// GET /api/db-test - DB 연결 테스트
+router.get('/db-test', async (_req: Request, res: Response) => {
+  try {
+    const startTime = Date.now();
+    await prisma.$queryRaw`SELECT 1`;
+    const latency = Date.now() - startTime;
+
+    const userCount = await prisma.user.count();
+
+    res.json({
+      status: 'connected',
+      latency: `${latency}ms`,
+      userCount,
+      database: 'PostgreSQL (Cloud SQL)',
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('DB connection failed:', error);
+    res.status(500).json({
+      status: 'disconnected',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
 // GET /api/hello - 기존 엔드포인트 유지
 router.get('/hello', (_req: Request, res: Response) => {
   res.json({ message: 'Hello from the fullstack lab!' });
