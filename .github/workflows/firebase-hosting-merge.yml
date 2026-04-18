@@ -20,5 +20,6 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_LIFE_DIARY_99FA1 }}
+          #production
           channelId: live
           projectId: my-life-diary-99fa1
