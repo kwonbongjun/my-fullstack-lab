@@ -136,4 +136,8 @@ dist
 
 # Vite logs files
 vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
+README2.md
+package-lock.json
+GEMINI.md
+backend/.env.example
+frontend/package-lock.json

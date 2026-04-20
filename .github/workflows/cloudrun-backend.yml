@@ -1,3 +1,11 @@
+# 1. 코드 체크아웃 → 소스 받기
+# 2. GCP 인증 → 서비스 계정 키(GCP_SA_KEY)로 인증
+# 3. Cloud SDK 세팅 → gcloud CLI 사용 준비
+# 4. Artifact Registry 인증 → Docker push 권한 획득
+# 5. Docker 빌드 & Push → 커밋 SHA를 태그로 이미지 빌드 후 레지스트리에 push
+# 6. Cloud Run 배포 → 해당 이미지로 서비스 배포
+# 7. 배포 URL 출력 → 배포된 서비스 URL 확인
+
 name: Deploy Backend to Cloud Run
 
 on:

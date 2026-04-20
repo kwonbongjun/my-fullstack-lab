@@ -9,6 +9,8 @@ permissions:
   pull-requests: write
 jobs:
   build_and_preview:
+    #같은 저장소에서 만든 PR만 실행 (외부 포크에서 온 PR은 제외)
+    # 포크된 저장소에서 PR을 보내면 Secrets에 접근할 수 없어서 보안상 차단
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
@@ -16,8 +18,8 @@ jobs:
       - name: Build frontend
         working-directory: ./frontend
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
-        run: yarn install && yarn build
+          NEXT_PUBLIC_API_URL: ${{ secrets.VITE_API_URL }}
+        run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
