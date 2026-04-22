@@ -17,6 +17,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Run Prisma Migration Check
+        working-directory: ./backend
+        run: |
+          yarn install
+          npx prisma migrate status
+        env:
+          DATABASE_URL: ${{ secrets.DIRECT_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
       - name: Build Docker image (test only)
         working-directory: ./backend
         run: |

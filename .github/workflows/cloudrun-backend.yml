@@ -22,7 +22,6 @@ env:
   REGION: asia-northeast3
   SERVICE_NAME: backend-api
   REPOSITORY: my-life-diary-registry
-  CLOUD_SQL_CONNECTION: my-life-diary-99fa1:asia-northeast3:my-life-diary-db
 
 jobs:
   deploy:
@@ -43,6 +42,15 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
+      - name: Run Prisma Migrations
+        working-directory: ./backend
+        run: |
+          yarn install
+          npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DIRECT_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
       - name: Build and Push Docker image
         working-directory: ./backend
         run: |
@@ -56,8 +64,8 @@ jobs:
             --region ${{ env.REGION }} \
             --platform managed \
             --allow-unauthenticated \
-            --add-cloudsql-instances ${{ env.CLOUD_SQL_CONNECTION }} \
-            --set-env-vars "NODE_ENV=production,DATABASE_URL=${{ secrets.DATABASE_URL }}" \
+            --set-env-vars "NODE_ENV=production,DATABASE_URL=${{ secrets.DATABASE_URL }},DIRECT_URL=${{ secrets.DIRECT_URL }}" \
+            --clear-cloudsql-instances \
             --port 3001 \
             --memory 512Mi \
             --cpu 1 \
