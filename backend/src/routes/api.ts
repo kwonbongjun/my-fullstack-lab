@@ -53,7 +53,7 @@ router.get('/db-test', async (_req: Request, res: Response) => {
       status: 'connected',
       latency: `${latency}ms`,
       userCount,
-      database: 'PostgreSQL (Cloud SQL)',
+      database: 'Neon Postgres',
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
