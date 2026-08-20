@@ -5,13 +5,13 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm install
 
 COPY . .
 
 EXPOSE 5173
 
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["pnpm", "run", "dev", "--", "--host"]
 
 
 # #next.js ssr cloudrun은 아래와 같이 설정 바꾸면될까?
