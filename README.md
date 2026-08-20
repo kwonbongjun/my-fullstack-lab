@@ -33,8 +33,8 @@ npm run dev
 
 ```bash
 cd frontend
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 프론트엔드는 http://localhost:5173 에서 실행됩니다.
@@ -101,18 +101,20 @@ my-fullstack-lab/
 └── README.md
 ```
 
-## 기술 스택
-
 ### 프론트엔드
 
-- **React 19** - UI 라이브러리
-- **Vite** - 빌드 도구 및 개발 서버
-- **ESLint** - 코드 린팅
+- **React 19** - 최신 UI 라이브러리
+- **Next.js 16** - App Router 및 렌더링 프레임워크 (Static Export)
+- **pnpm** - 고성능 패키지 매니저
+- **Tailwind CSS v4 & shadcn/ui** - 유틸리티 우선 CSS 및 컴포넌트 시스템
+- **TanStack Query v5** - Server State 서버 데이터 캐싱 및 상태 관리
+- **React Hook Form & Zod** - 폼 상태 관리 및 스키마 유효성 검증
+- **Vitest & Testing Library** - 단단한 단위 테스트 환경
 
 ### 백엔드
 
 - **Node.js** - 런타임 환경
-- **Express 5** - 웹 프레임워크
+- **Express** - 웹 프레임워크
 - **CORS** - 교차 출처 리소스 공유
 - **dotenv** - 환경 변수 관리
 
@@ -142,10 +144,12 @@ my-fullstack-lab/
 
 ### GitHub Actions 워크플로우
 
-| 워크플로우                | 트리거                              | 설명                                         |
-| ------------------------- | ----------------------------------- | -------------------------------------------- |
-| `cloudrun-backend.yml`    | `main` 브랜치 push (백엔드 변경 시) | 빌드, Artifact Registry push, Cloud Run 배포 |
-| `cloudrun-backend-pr.yml` | PR (백엔드 변경 시)                 | Docker 이미지 빌드 검증                      |
+| 워크플로우 | 트리거 | 설명 |
+| --- | --- | --- |
+| `cloudrun-backend.yml` | `main` 브랜치 push (백엔드 변경 시) | Docker 빌드, Artifact Registry push, Cloud Run 배포 |
+| `cloudrun-backend-pr.yml` | PR (백엔드 변경 시) | 백엔드 Docker 이미지 빌드 검증 |
+| `firebase-hosting-merge.yml` | `main` 브랜치 push (프론트엔드 변경 시) | `pnpm build` 정적 익스포트 후 Firebase Hosting 자동 배포 |
+| `firebase-hosting-pull-request.yml` | PR (프론트엔드 변경 시) | Firebase Hosting 프리뷰 채널 배포 |
 
 ### Cloud Run 배포
 
@@ -169,10 +173,10 @@ npm start      # 프로덕션 서버 시작
 
 ```bash
 cd frontend
-npm run dev      # 개발 서버 시작
-npm run build    # 프로덕션 빌드
-npm run preview  # 프로덕션 빌드 미리보기
-npm run lint     # 린팅 실행
+pnpm run dev      # 핫 리로드로 Next.js 개발 서버 시작
+pnpm run build    # 프로덕션 빌드 (Static Export)
+pnpm test         # Vitest 단위 테스트 실행
+pnpm run lint     # ESLint 린팅 실행
 ```
 
 ## 라이선스

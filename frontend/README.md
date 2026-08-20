@@ -6,22 +6,22 @@ A React + Vite frontend for the fullstack lab.
 
 1. Install dependencies (if not already installed):
 ```bash
-npm install
+pnpm install
 ```
 
 2. Start the development server:
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The app will run on http://localhost:5173
 
 ## Available Scripts
 
-- `npm run dev` - Start the development server with hot reload
-- `npm run build` - Build the production bundle
-- `npm run preview` - Preview the production build
-- `npm run lint` - Run ESLint
+- `pnpm run dev` - Start the development server with hot reload
+- `pnpm run build` - Build the production bundle
+- `pnpm run preview` - Preview the production build
+- `pnpm run lint` - Run ESLint
 
 ## Backend Integration
 

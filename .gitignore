@@ -141,3 +141,7 @@ package-lock.json
 GEMINI.md
 backend/.env.example
 frontend/package-lock.json
+AGENTS.md
+CLAUD.md
+DESIGN.md
+.agents/*
