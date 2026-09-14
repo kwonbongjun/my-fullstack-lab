@@ -1,7 +1,59 @@
 import { Router, Request, Response } from 'express';
+import { GoogleGenAI } from '@google/genai';
 import { prisma } from '../lib/prisma.js';
 
-const router = Router();
+const router: Router = Router();
+
+// POST /api/chat/stream - Gemini AI 스트리밍 엔드포인트
+router.post('/chat/stream', async (req: Request, res: Response) => {
+  try {
+    const { prompt } = req.body;
+
+    if (!prompt) {
+      res.status(400).json({ error: 'Prompt is required' });
+      return;
+    }
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      res.status(500).json({ error: 'GEMINI_API_KEY is not configured in backend' });
+      return;
+    }
+
+    // 1. 공식 @google/genai SDK 인스턴스 생성
+    const ai = new GoogleGenAI({ apiKey });
+
+    // 2. HTTP 헤더를 Server-Sent Events (SSE) 스트리밍 포맷으로 설정
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+
+    // 3. Gemini 무료 API (gemini-2.5-flash) 스트리밍 호출
+    const responseStream = await ai.models.generateContentStream({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+    });
+
+    // 4. 조각(chunk) 단위로 클라이언트에 실시간 즉시 전송 (ReadableStream)
+    for await (const chunk of responseStream) {
+      if (chunk.text) {
+        res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
+      }
+    }
+
+    // 5. 스트림 완료 신호 전송 및 종료
+    res.write('data: [DONE]\n\n');
+    res.end();
+  } catch (error) {
+    console.error('Gemini Streaming Error:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Streaming failed' });
+    } else {
+      res.write(`data: ${JSON.stringify({ error: 'Stream error occurred' })}\n\n`);
+      res.end();
+    }
+  }
+});
 
 // GET /api/users - 사용자 목록 조회
 router.get('/users', async (_req: Request, res: Response) => {
@@ -82,3 +134,4 @@ router.post('/data', (req: Request, res: Response) => {
 });
 
 export default router;
+

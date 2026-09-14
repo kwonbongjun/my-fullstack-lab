@@ -34,6 +34,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { sendDataSchema, type SendDataInput } from "@/lib/schemas";
 
+import GeminiStreamChat from "@/components/lab/GeminiStreamChat";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 // API fetching functions for TanStack Query
@@ -244,6 +246,9 @@ export default function Home() {
             </form>
           </CardFooter>
         </Card>
+
+        {/* 🤖 Google Gemini Free API 실시간 스트리밍 UI (ReadableStream 적용) */}
+        <GeminiStreamChat />
 
         {/* 🎨 디자인 시스템 버튼 모음 쇼케이스 */}
         <Card className="border-dashed">

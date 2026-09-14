@@ -17,6 +17,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@google/genai": "^2.18.0",
     "@prisma/client": "^6.8.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
