@@ -35,6 +35,7 @@ import { Input } from "@/components/ui/input";
 import { sendDataSchema, type SendDataInput } from "@/lib/schemas";
 
 import GeminiStreamChat from "@/components/lab/GeminiStreamChat";
+import UserNav from "@/components/UserNav";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
@@ -140,26 +141,29 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-card border border-border p-1.5 rounded-lg shadow-sm">
-            <span className="text-xs text-muted-foreground px-2 font-medium">
-              테마 전환:
-            </span>
-            <Button
-              variant={isDark ? "default" : "outline"}
-              size="sm"
-              onClick={() => setIsDark(true)}
-              className="gap-1.5 text-xs"
-            >
-              <Moon className="w-3.5 h-3.5" /> 다크
-            </Button>
-            <Button
-              variant={!isDark ? "default" : "outline"}
-              size="sm"
-              onClick={() => setIsDark(false)}
-              className="gap-1.5 text-xs"
-            >
-              <Sun className="w-3.5 h-3.5" /> 라이트
-            </Button>
+          <div className="flex items-center gap-3">
+            <UserNav />
+            <div className="flex items-center gap-2 bg-card border border-border p-1.5 rounded-lg shadow-sm">
+              <span className="text-xs text-muted-foreground px-2 font-medium">
+                테마 전환:
+              </span>
+              <Button
+                variant={isDark ? "default" : "outline"}
+                size="sm"
+                onClick={() => setIsDark(true)}
+                className="gap-1.5 text-xs"
+              >
+                <Moon className="w-3.5 h-3.5" /> 다크
+              </Button>
+              <Button
+                variant={!isDark ? "default" : "outline"}
+                size="sm"
+                onClick={() => setIsDark(false)}
+                className="gap-1.5 text-xs"
+              >
+                <Sun className="w-3.5 h-3.5" /> 라이트
+              </Button>
+            </div>
           </div>
         </header>
 
